@@ -1,4 +1,8 @@
 import React, { Component } from 'react'
+import {render} from 'react-dom'
+import {ReactDOM} from 'react-dom'
+import {Router, Route, browserHistory} from 'react-router'
+import AddUser from './AddUser'
 
 class Home extends Component{
     constructor(){
@@ -17,16 +21,17 @@ class Home extends Component{
 
     }
 
-    pagerender = (username,event) => {
-        console.log(username)
-        console.log(event)
-        console.log("ROnak")
-        
+    pagerender = (e) => {
+        this.onsubmitchange(e)
     }
 
-    pagerenderarg = (e) =>{
-        this.pagerender(this.setState.username,e)
+    onsubmitchange = (e) =>{
+        this.setState = {
+            render: true
+        }
     }
+
+
 
     render(){
         return (
@@ -41,7 +46,7 @@ class Home extends Component{
                     </tr>
                     <tr>
                         <td>
-                            <button type="submit" onClick={this.pagerenderarg}>Submit</button>
+                            <button type="submit" onClick={this.pagerender}>Submit</button>
                         </td>
                     </tr>
                     </table>
@@ -51,4 +56,5 @@ class Home extends Component{
             )
     }
 }
+
 export default Home
