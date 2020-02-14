@@ -1,39 +1,27 @@
 import React, { Component } from 'react'
 import {render} from 'react-dom'
-import {ReactDOM} from 'react-dom'
-import {Router, Route, browserHistory} from 'react-router'
+import {Redirect} from 'react-router'
 import AddUser from './AddUser'
+import { Link } from 'react-router-dom'
 
 class Home extends Component{
-    constructor(){
-        super()
-
+    constructor(props){ 
+        super(props)
         this.state = {
-            username:'',
+            username:'cdc',
             render: false
         }
     }
 
     usertext = (event) => {
         this.setState = {
-            username : event.target.value
+            username : event.target.value,
+            render:true
         }
-
+        console.log(this.setState.username)
     }
-
-    pagerender = (e) => {
-        this.onsubmitchange(e)
-    }
-
-    onsubmitchange = (e) =>{
-        this.setState = {
-            render: true
-        }
-    }
-
-
-
-    render(){
+    render(){   
+        console.log(this.setState.username)
         return (
         <div>
             <fieldset>
@@ -42,19 +30,21 @@ class Home extends Component{
                     <table>
                     <tr>
                         <td>UserName</td>
-                        <td><input value={this.username} onChange={this.usertext}/></td>
+                        <td><input type = "text" name="name" onClick={this.usertext}/></td>
                     </tr>
                     <tr>
                         <td>
-                            <button type="submit" onClick={this.pagerender}>Submit</button>
+                        <Link to ={{
+                             pathname:'/AddUser',
+                             username:this.state.username}}>
+                            <button type="submit">Submit</button></Link>
                         </td>
                     </tr>
                     </table>
                 </form>
             </fieldset>
         </div>  
-            )
+      )
     }
 }
-
 export default Home
