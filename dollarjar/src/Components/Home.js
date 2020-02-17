@@ -1,50 +1,34 @@
-import React, { Component } from 'react'
-import {render} from 'react-dom'
-import {Redirect} from 'react-router'
-import AddUser from './AddUser'
-import { Link } from 'react-router-dom'
+import React, { Component} from 'react';
+import '../App.css';
+import {Link} from "react-router-dom";
 
-class Home extends Component{
-    constructor(props){ 
-        super(props)
+export default class Home extends Component{
+
+    constructor(){
+        super();
         this.state = {
-            username:'cdc',
-            render: false
+            userName: ""
         }
     }
 
-    usertext = (event) => {
-        this.setState = {
-            username : event.target.value,
-            render:true
-        }
-        console.log(this.setState.username)
-    }
-    render(){   
-        console.log(this.setState.username)
-        return (
-        <div>
-            <fieldset>
-                <legend>Registration</legend>
-                <form>
-                    <table>
-                    <tr>
-                        <td>UserName</td>
-                        <td><input type = "text" name="name" onClick={this.usertext}/></td>
-                    </tr>
-                    <tr>
-                        <td>
-                        <Link to ={{
-                             pathname:'/AddUser',
-                             username:this.state.username}}>
-                            <button type="submit">Submit</button></Link>
-                        </td>
-                    </tr>
-                    </table>
-                </form>
-            </fieldset>
-        </div>  
-      )
-    }
+changeInput = (e) =>{
+    const name = e.target.value;
+    this.setState({
+        userName : name,
+    });
 }
-export default Home
+
+render() {
+    console.log(this.state.userName);
+    return (
+            <div className="App" >
+
+                <input type="text" value={this.state.userName} onChange={this.changeInput} name="uname"/>
+                <br />
+                <Link to = {{pathname: '/AddUser', userName: this.state.userName}}> 
+                    <button>Submit</button>
+                </Link>
+            </div>
+    );
+  }
+}

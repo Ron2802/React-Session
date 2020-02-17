@@ -1,76 +1,91 @@
-import React, { Component, useState } from 'react'
+import React, { Component} from 'react';
+import '../App.css';
 
-export default class AddUser extends Component{
-    constructor(props){
-        super(props)
+export default class AddUser extends Component {
+
+    constructor(){
+        super();
         this.state = {
-            users:[],
-            total:0,
-            balance:0,
-            rate:10,
-            count:0
+            userData:{
+                uid : '',
+                name : '',
+                balance: 0
+            },
+            userList: [],
+            total: 0,
+            panalty:10
         }
+        this.createJar = this.createJar.bind(this);
     }
 
-    AddUserName = (event) => {
-        event.preventDefault();
-        const name = event.target.elements.user.value;
-       // console.log(name)
-       const user = {
-           'id':this.state.count,
-           'name': name,
-           'balance':this.state.balance
-       }
-        this.setState (users =>({
-            users: [...this.state.users, user]
-        })) 
-       console.log(user) 
-    }
-
-    addDollar =(event)=>{
-        const bal = event.target.value
-        console.log(bal)
+     handlerChngeInput = (e) =>{
+        let user = e.target.value;
+        let id = this.state.userList.length+1;
+        console.log(user);
+        
         this.setState({
-            fruits: [ ...this.state.users, {
-                'id': e.target.id,
-                'value': e.target.value
-            }],
-          });
+            userData:{
+                uid : id,
+                name : user,
+                balance: 0
+            }
+        })
+    } 
+
+    handlerAddBtn = () =>{
+        let userData = this.state.userData;
+        this.setState({
+            userList: [...this.state.userList,userData]
+        })
+        console.log(this.state.userList);
     }
 
-    render(){
-      //  console.log(this.props.location.state.username);
-        return(
+    createJar(item) {
+        return (
+            <div key={item.uid}>
+                <ul>
+                    <li> {item.name}</li> 
+                    <h3> Balance : {item.balance} </h3>
+                    <button type="button" onClick={() => this.addPoints(item)}> + </button> &nbsp;&nbsp; <button type="button" onClick={() => this.removePoints(item)}> - </button>
+                </ul>
+        </div>
+            )
+      }
+
+      addPoints(item){
+        console.log(item);
+        item.balance += this.state.panalty; 
+        this.setState({
+            total: this.state.total +  this.state.panalty
+        })
+        
+    }
+
+    removePoints(item){
+        item.balance -= this.state.panalty; 
+        this.setState({
+            total: this.state.total -  this.state.panalty
+        })
+    }
+
+    render() {
+        const {userName} = this.props.location;
+        return (
             <div>
-                <h1>Welcome</h1>
-                <fieldset>
-                    <legend>Add User</legend>
-                    <form  onSubmit={this.AddUserName}>
-                    <table>
-                        <tr>
-                            <td>
-                                <input type="text" name="user" placeholder="UserName"/>
-                            </td>
-                            <td>
-                                <button type="submit">AddUser</button>
-                            </td>
-                        </tr>
-                    </table>
-                    </form>
-                </fieldset>
-                <fieldset>
-                    <legend>UserList</legend>
-                         {this.state.users.map(item => {
-                            return <table>
-                                <tr>
-                                    <td>{item.name}</td>
-                                    <td><input value={this.state.balance} readOnly/></td>
-                                    <td><button value={item.id} onClick={this.addDollar}>plus</button></td>
-                                    <td><button onClick={this.minusDollar}>Minus</button></td>
-                                </tr>
-                            </table>
-                        })}
-                </fieldset>
+                <h1>Hello {userName}</h1> <hr/>
+                    <input
+                        type="text" id="user"
+                        name="user" placeholder="Enter User Name"
+                        value={this.state.userData.name}
+                        onChange = {this.handlerChngeInput}
+                    />
+                    <button type="reset" onClick={this.handlerAddBtn}>add</button>
+                    <h2 className="App">Total = {this.state.total} </h2>
+                    {
+                        this.state.userList.map((user)=>{
+                            return this.createJar(user)
+                        })                        
+                    }
             </div>
         )
     }
