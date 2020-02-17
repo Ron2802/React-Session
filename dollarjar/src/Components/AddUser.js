@@ -62,10 +62,22 @@ export default class AddUser extends Component {
     }
 
     removePoints(item){
-        item.balance -= this.state.panalty; 
-        this.setState({
-            total: this.state.total -  this.state.panalty
-        })
+        const {userName} = this.props.location;
+        console.log(this.props.location)
+        if(userName.toLowerCase() == "chintan"){
+            if (item.balance == 0 ) {
+                alert("No Nagative Panalty")    
+            } 
+            else {
+                item.balance -= this.state.panalty; 
+                this.setState({
+                    total: this.state.total -  this.state.panalty
+            })  
+            }
+        }
+        else{
+            alert("Only Chintan Can Remove Panalty");
+        }
     }
 
     render() {
@@ -78,6 +90,7 @@ export default class AddUser extends Component {
                         name="user" placeholder="Enter User Name"
                         value={this.state.userData.name}
                         onChange = {this.handlerChngeInput}
+                        required
                     />
                     <button type="reset" onClick={this.handlerAddBtn}>add</button>
                     <h2 className="App">Total = {this.state.total} </h2>
